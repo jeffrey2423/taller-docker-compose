@@ -1,0 +1,1 @@
+export const FakerApiUrl = "http://localhost:5000/api/";

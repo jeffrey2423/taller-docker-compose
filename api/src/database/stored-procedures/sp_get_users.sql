@@ -8,6 +8,7 @@ BEGIN
          FOR REG IN
             SELECT *
                FROM USERS
+            ORDER BY position ASC
          LOOP
          RETURN NEXT reg;
          END LOOP;

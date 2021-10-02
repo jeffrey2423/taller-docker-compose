@@ -12,7 +12,7 @@ fakerController.GetUsers = async (req, res) =>{
         await connection.connect(async (err, client, done) => {
             try {
                 if (err) {
-                    res.status(400).json({
+                    res.json({
                         error: "Ocurrio un error al intentar obtener los usuarios",
                         descError: err.message
                     });
@@ -20,7 +20,7 @@ fakerController.GetUsers = async (req, res) =>{
                     await client.query(query, async (err, results) => {
                         if (err) {
                             await client.query("ROLLBACK");
-                            res.status(400).json({
+                            res.json({
                                 error: "Ocurrio un error al intentar obtener los usuarios",
                                 descError: err.message
                             });
@@ -35,7 +35,7 @@ fakerController.GetUsers = async (req, res) =>{
             }
         });
     } catch (err) {
-        res.status(400).json({
+        res.json({
             error: "Ocurrio un error al intentar obtener los usuarios",
             descError: err.message
         });
@@ -47,9 +47,12 @@ fakerController.InsertFakeData = async (req, res) =>{
         await connection.connect(async (err, client, done) => {
             try {
                 if (err) {
-                    res.status(400).json(err.message);
+                    res.json({
+                        error: "Ocurrio un error al tratar de insertar los datos",
+                        descError: err.message
+                    });
                 } else {
-                    let positionTemp = req.body.position
+                    let positionTemp = parseInt(req.body.position)
                     for (let i = 0; i < 13; i++) {
 
                         let datos = {
@@ -73,7 +76,7 @@ fakerController.InsertFakeData = async (req, res) =>{
                         });
                     }
 
-                    res.status(400).json("Datos Creados con exito");
+                    res.json("Datos Creados con exito");
                 }
             } finally {
                 done();
@@ -83,7 +86,7 @@ fakerController.InsertFakeData = async (req, res) =>{
         });
 
     } catch (err) {
-        res.status(400).json({
+        res.json({
             error: "Ocurrio un error al tratar de insertar los datos",
             descError: err.message
         });
@@ -98,11 +101,17 @@ fakerController.GetLastPosition = async (req, res) =>{
         await connection.connect(async (err, client, done) => {
             try {
                 if (err) {
-
+                    res.json({
+                        error: err.message,
+                        descError: err.message
+                    });
                 } else {
                     await client.query(query, async (err, results) => {
                         if (err) {
-
+                            res.json({
+                                error: err.message,
+                                descError: err.message
+                            });
                         } else {
                             res.status(200).json({
                                 position: results.rows[0].sp_get_last_position
@@ -116,7 +125,10 @@ fakerController.GetLastPosition = async (req, res) =>{
             }
         });
     } catch (err) {
-
+        res.json({
+            error: err.message,
+            descError: err.message
+        });
     }
 }
 
@@ -128,14 +140,14 @@ fakerController.DeleteAll = async (req, res) =>{
         await connection.connect(async (err, client, done) => {
             try {
                 if (err) {
-                    res.status(400).json({
+                    res.json({
                         error: "Ocurrio un error al tratar de eliminar los datos",
                         descError: err.message
                     });
                 } else {
                     await client.query(query, async (err, results) => {
                         if (err) {
-                            res.status(400).json({
+                            res.json({
                                 error: "Ocurrio un error al tratar de eliminar los datos",
                                 descError: err.message
                             });
@@ -150,7 +162,7 @@ fakerController.DeleteAll = async (req, res) =>{
             }
         });
     } catch (err) {
-        res.status(400).json({
+        res.json({
             error: "Ocurrio un error al tratar de eliminar los datos",
             descError: err.message
         });
