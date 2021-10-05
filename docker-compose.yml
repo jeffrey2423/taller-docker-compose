@@ -1,21 +1,19 @@
-version: "3"
+version: "3.7"
 services: 
     api:
-        container_name: api
         build: './api'
-        command: npm start
+        container_name: api
         volumes: 
-            - .:/app
-            - /app/node_modules
+            - ./api:/api/app/
         ports:
-            - "5000:5000"
-    client:
-        container_name: client
+            - 5000:5000
+    web:
+        stdin_open: true
         tty: true
         build: './web'
+        container_name: web
         volumes:
-          - '.:/app'
-          - '/app/node_modules'
+          - ./web:/web/app/
         ports:
           - 3000:3000
         environment:
