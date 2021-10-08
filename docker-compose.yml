@@ -5,6 +5,7 @@ services:
         container_name: api
         volumes: 
             - ./api:/api/app/
+            - /api/app/node_modules
         ports:
             - 5000:5000
     web:
@@ -14,6 +15,7 @@ services:
         container_name: web
         volumes:
           - ./web:/web/app/
+          - /web/app/node_modules
         ports:
           - 3000:3000
         environment:
